@@ -13,4 +13,15 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'think.settings')
 
+import django
+from django.core.management import call_command
+from django.db.utils import OperationalError
+
+django.setup()
+
+try:
+    call_command('migrate', interactive=False)
+except OperationalError:
+    pass
+
 application = get_wsgi_application()
