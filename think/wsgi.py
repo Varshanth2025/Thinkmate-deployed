@@ -27,8 +27,9 @@ except Exception:
 
 # Automatically collect static files (needed for free tier deployments without terminal)
 try:
-    call_command('collectstatic', interactive=False, clear=True)
+    call_command('collectstatic', interactive=False, verbosity=0, clear=False)
 except Exception:
     pass
 
 application = get_wsgi_application()
+
