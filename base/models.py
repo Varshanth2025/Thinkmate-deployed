@@ -3,10 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.templatetags.static import static
 
 
-    
-import os
-from django.conf import settings
-
 class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True, null=True)
@@ -15,11 +11,12 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    @property
-    def avatar_url(self):
-        if self.avatar and os.path.exists(os.path.join(settings.MEDIA_ROOT, self.avatar.name)):
-            return self.avatar.url
-        return static("images/avatar.svg")
+
+@property
+def avatar_url(self):
+    if self.avatar:   
+        return self.avatar.url   
+    return static("images/avatar.svg")  
     
 class Topic(models.Model):
     name=models.TextField(max_length=200)  
