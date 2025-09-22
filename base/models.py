@@ -1,5 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.templatetags.static import static
+
+
+    
+import os
+from django.conf import settings
 
 class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
@@ -11,11 +17,10 @@ class User(AbstractUser):
 
     @property
     def avatar_url(self):
-        try:
+        if self.avatar and os.path.exists(os.path.join(settings.MEDIA_ROOT, self.avatar.name)):
             return self.avatar.url
-        except ValueError:
-            return "/static/images/avatar.svg"
-
+        return static("images/avatar.svg")
+    
 class Topic(models.Model):
     name=models.TextField(max_length=200)  
 
