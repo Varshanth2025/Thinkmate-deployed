@@ -2,19 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.templatetags.static import static
 
-
 class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True, null=True)
     bio = models.TextField(null=True, blank=True)
-    avatar = models.ImageField(null=True, blank=True, default="avatar.svg")
+    avatar = models.ImageField(null=True, blank=True)  # no default
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     @property
     def avatar_url(self):
-        if self.avatar:   
-            return self.avatar.url   
+        if self.avatar and getattr(self.avatar, 'url', None):
+            return self.avatar.url
+
         return static("images/avatar.svg") 
     
 class Topic(models.Model):
