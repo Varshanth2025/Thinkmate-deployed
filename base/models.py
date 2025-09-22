@@ -11,12 +11,11 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-
-@property
-def avatar_url(self):
-    if self.avatar:   
-        return self.avatar.url   
-    return static("images/avatar.svg")  
+    @property
+    def avatar_url(self):
+        if self.avatar:   
+            return self.avatar.url   
+        return static("images/avatar.svg") 
     
 class Topic(models.Model):
     name=models.TextField(max_length=200)  
